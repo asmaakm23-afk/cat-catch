@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  /* Default mobile board sizing: constrained by both 100dvh and 100vw */
+  --board-size: clamp(200px, min(calc(100dvh - 275px), calc(100vw - 24px)), 360px);
+}
+
+@media (min-width: 768px) {
+  :root {
+    /* Desktop board sizing: grid on left, control panel on right */
+    --board-size: clamp(260px, min(calc(100dvh - 160px), calc(100vw - 230px)), 500px);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --board-size: clamp(280px, min(calc(100dvh - 160px), calc(100vw - 250px)), 540px);
+  }
+}
+
+/* On very short screens, prioritize fitting all controls without scroll */
+@media (max-height: 520px) {
+  :root {
+    --board-size: clamp(180px, min(calc(100dvh - 140px), calc(100vw - 220px)), 340px);
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@layer utilities {
+  @keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
+    20%, 60% { transform: translate(-4px, 2px); }
+    40%, 80% { transform: translate(4px, -2px); }
+  }
+
+  @keyframes floatFade {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 0) scale(0.8);
+    }
+    15% {
+      opacity: 1;
+      transform: translate(-50%, -10px) scale(1.05);
+    }
+    80% {
+      opacity: 0.9;
+      transform: translate(-50%, -24px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -32px) scale(0.9);
+    }
+  }
+
+  .animate-shake {
+    animation: shake 0.4s ease-in-out;
+  }
+
+  .animate-float-fade {
+    animation: floatFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
